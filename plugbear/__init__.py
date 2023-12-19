@@ -6,10 +6,10 @@ import dataclasses
 import http
 from collections.abc import Sequence
 
+import aiohttp
+
 __version__ = "0.1.0"
 __all__ = ("Message", "Request", "PlugBear", "PlugBearError", "UnauthorizedOrganization")
-
-import aiohttp
 
 
 @dataclasses.dataclass(frozen=True)
