@@ -35,11 +35,17 @@ fastapi = ["fastapi"]
 
 dev = ["plugbear[test]", "plugbear[lint]"]
 test = [
-    "pytest~=7.4.3",
+    "pytest~=7.4",
+    "pytest-asyncio~=0.23",
+    "httpx",  # for fastapi.testclient
 ]
 lint = [
     "ruff~=0.1",
 ]
+
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
 
 
 [tool.ruff]

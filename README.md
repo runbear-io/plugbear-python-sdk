@@ -42,7 +42,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-async def some_llm(context: plugbear.Request) -> str:
+async def some_llm(context: plugbear.fastapi.Request) -> str:
     # template prompt using `context` to your own LLM
     # and return result
     result: str = ...
@@ -74,7 +74,7 @@ async def _startup():
     )
 
 
-async def some_llm(context: plugbear.Request) -> str:
+async def some_llm(context: plugbear.fastapi.Request) -> str:
     # template prompt using `context` to your own LLM
     # and return result
     result: str = ...

@@ -5,6 +5,7 @@ from __future__ import annotations
 import dataclasses
 import http
 from collections.abc import Sequence
+from typing import Optional
 
 import aiohttp
 
@@ -15,7 +16,8 @@ __all__ = ("Message", "Request", "PlugBear", "PlugBearError", "UnauthorizedOrgan
 @dataclasses.dataclass(frozen=True)
 class Message:
     role: str
-    chat: str
+    content: str
+    name: Optional[str] = None
 
 
 @dataclasses.dataclass(frozen=True)
