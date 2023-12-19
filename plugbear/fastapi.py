@@ -18,7 +18,7 @@ class LLMHandler(Protocol):
 
 
 async def register(app: fastapi.FastAPI, *, llm_func: LLMHandler, api_key: str, endpoint: str) -> None:
-    pb = await plugbear.PlugBear.init(api_key=api_key)
+    await plugbear.PlugBear.init(api_key=api_key)
 
     if inspect.iscoroutinefunction(llm_func):
 
