@@ -35,8 +35,8 @@ class PlugBear:
     async def verify(self) -> None:
         try:
             headers = {"X-SDK-Version": __version__, "Authorization": self.api_key}
-            async with aiohttp.ClientSession(base_url="https://plugbear.io", headers=headers) as session:
-                async with session.get("/api/sdk/verify") as res:
+            async with aiohttp.ClientSession(headers=headers) as session:
+                async with session.get("https://plugbear.io/api/sdk/verify") as res:
                     if res.status != http.HTTPStatus.OK:
                         raise UnauthorizedOrganization(await res.text())
         except aiohttp.ClientError as err:
