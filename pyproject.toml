@@ -23,16 +23,15 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "aiohttp",
+    "aiohttp>=0.16.0",
 ]
 
 [project.urls]
 Home = "https://plugbear.io/"
+Source = "https://github.com/runbear-io/plugbear-python-sdk"
 
 [project.optional-dependencies]
-fastapi = [
-    "fastapi"
-]
+fastapi = ["fastapi"]
 
 dev = ["plugbear[test]", "plugbear[lint]"]
 test = [
