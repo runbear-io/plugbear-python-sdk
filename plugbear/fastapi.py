@@ -8,6 +8,8 @@ import fastapi
 
 import plugbear
 
+__all__ = ("LLMHandler", "register")
+
 
 @runtime_checkable
 class LLMHandler(Protocol):

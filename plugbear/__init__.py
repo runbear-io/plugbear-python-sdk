@@ -7,6 +7,7 @@ import http
 from collections.abc import Sequence
 
 __version__ = "0.1.0"
+__all__ = ("Message", "Request", "PlugBear", "PlugBearError", "UnauthorizedOrganization")
 
 import aiohttp
 
