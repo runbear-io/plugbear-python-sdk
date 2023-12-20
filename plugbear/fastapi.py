@@ -6,27 +6,23 @@ from typing import Any, Optional, Protocol, Union, cast, runtime_checkable
 
 import fastapi
 import fastapi.responses
-from pydantic import BaseModel
+import pydantic.dataclasses
 
 import plugbear
 
 __all__ = ("Message", "Request", "LLMHandler", "register")
 
 
-class Message(BaseModel):
+@pydantic.dataclasses.dataclass(frozen=True)
+class Message:
     role: str
     content: str
     name: Optional[str] = None
 
-    class Config:
-        frozen = True
 
-
-class Request(BaseModel):
+@pydantic.dataclasses.dataclass(frozen=True)
+class Request:
     messages: Sequence[Message]
-
-    class Config:
-        frozen = True
 
 
 @runtime_checkable
