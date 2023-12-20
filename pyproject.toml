@@ -41,6 +41,7 @@ test = [
 ]
 lint = [
     "ruff~=0.1",
+    "mypy~=1.7",
 ]
 
 
@@ -61,3 +62,30 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 # Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
+
+
+[tool.mypy]
+python_version = "3.8"
+allow_redefinition = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+no_implicit_reexport = true
+no_warn_no_return = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
+
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+
+# Plugins
+plugins = [
+    "pydantic.mypy",
+]
