@@ -20,6 +20,6 @@ jobs:
         # language=Bash
         run: |
           pip install -U build
-          build .
+          python -m build .
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
