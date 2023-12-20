@@ -30,7 +30,7 @@ Home = "https://plugbear.io/"
 Source = "https://github.com/runbear-io/plugbear-python-sdk"
 
 [project.optional-dependencies]
-fastapi = ["fastapi"]
+fastapi = ["fastapi>=0.51.0"]
 
 dev = ["plugbear[test]", "plugbear[lint]", "plugbear[fastapi]"]
 test = [
