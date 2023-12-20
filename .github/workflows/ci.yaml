@@ -31,3 +31,15 @@ jobs:
         run: |
           ruff check --show-fixes --show-source
           mypy -p plugbear
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+      - name: Build
+        # language=Bash
+        run: |
+          python -m pip install --upgrade pip build
+          build .
