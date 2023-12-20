@@ -5,16 +5,19 @@ from __future__ import annotations
 import dataclasses
 import http
 from collections.abc import Sequence
-
-__version__ = "0.1.0"
+from typing import Optional
 
 import aiohttp
+
+__version__ = "0.1.0"
+__all__ = ("Message", "Request", "PlugBear", "PlugBearError", "UnauthorizedOrganization")
 
 
 @dataclasses.dataclass(frozen=True)
 class Message:
     role: str
-    chat: str
+    content: str
+    name: Optional[str] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -34,9 +37,9 @@ class PlugBear:
 
     async def verify(self) -> None:
         try:
-            headers = {"X-SDK-Version": __version__, "Authorization": self.api_key}
-            async with aiohttp.ClientSession(base_url="https://plugbear.io", headers=headers) as session:
-                async with session.get("/api/sdk/verify") as res:
+            headers = {"X-SDK-Version": __version__, "Authorization": f"Bearer {self.api_key}"}
+            async with aiohttp.ClientSession(headers=headers) as session:
+                async with session.get("https://plugbear.io/api/sdk/verify") as res:
                     if res.status != http.HTTPStatus.OK:
                         raise UnauthorizedOrganization(await res.text())
         except aiohttp.ClientError as err:
