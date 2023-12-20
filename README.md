@@ -20,7 +20,6 @@ Here's a simple example to get you started:
 ```python
 import contextlib
 
-import plugbear
 import plugbear.fastapi
 from fastapi import FastAPI
 
@@ -54,10 +53,8 @@ async def some_llm(context: plugbear.fastapi.Request) -> str:
   <summary>For versions below 0.93.0</summary>
 
 ```python
-from fastapi import FastAPI
-
-import plugbear
 import plugbear.fastapi
+from fastapi import FastAPI
 
 app = FastAPI()
 PLUGBEAR_API_KEY = ""
