@@ -6,6 +6,9 @@
 
 ## Usage
 
+This will create a math tutor AI.
+You can make a query on any integrated channel, like this: ``@PlugBear "I need to solve the equation `3x + 11 = 14`. Can you help me?"``.
+
 ```shell
 docker build . -t plugbear-python-sdk-example
 docker run --rm -ti \
