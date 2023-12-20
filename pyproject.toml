@@ -33,7 +33,7 @@ Source = "https://github.com/runbear-io/plugbear-python-sdk"
 [project.optional-dependencies]
 fastapi = ["fastapi"]
 
-dev = ["plugbear[test]", "plugbear[lint]"]
+dev = ["plugbear[test]", "plugbear[lint]", "plugbear[fastapi]"]
 test = [
     "pytest~=7.4",
     "pytest-asyncio~=0.23",
