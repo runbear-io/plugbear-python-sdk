@@ -42,4 +42,4 @@ jobs:
         # language=Bash
         run: |
           python -m pip install --upgrade pip build
-          build .
+          python -m build .
