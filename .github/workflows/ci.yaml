@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pyver: ["3.8", "3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.pyver }}"
+          cache: pip
+      - name: Install dependencies
+        # language=Bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+      - name: Test with pytest
+        # language=Bash
+        run: |
+          pytest
+      - name: Lint
+        # language=Bash
+        run: |
+          ruff check --show-fixes --show-source
+          mypy -p plugbear
