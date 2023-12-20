@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import inspect
 from collections.abc import Coroutine, Sequence
-from typing import Any, Optional, Protocol, Union, runtime_checkable
+from typing import Any, Optional, Protocol, Union, cast, runtime_checkable
 
 import fastapi
+import fastapi.responses
 from pydantic import BaseModel
 
 import plugbear
@@ -41,9 +42,9 @@ async def register(app: fastapi.FastAPI, *, llm_func: LLMHandler, api_key: str, 
 
         @app.post(endpoint, response_class=fastapi.responses.PlainTextResponse)
         async def plugbear_callback(request: Request) -> str:
-            return await llm_func(request)
+            return cast(str, await llm_func(request))
     else:
 
         @app.post(endpoint, response_class=fastapi.responses.PlainTextResponse)
         def plugbear_callback(request: Request) -> str:
-            return llm_func(request)
+            return cast(str, llm_func(request))
