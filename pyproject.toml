@@ -7,14 +7,13 @@ name = "plugbear"
 authors = [{name = "Runbear", email = "dev@runbear.io"}]
 readme = "README.md"
 dynamic = ["version", "description"]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -31,9 +30,9 @@ Home = "https://plugbear.io/"
 Source = "https://github.com/runbear-io/plugbear-python-sdk"
 
 [project.optional-dependencies]
-fastapi = ["fastapi"]
+fastapi = ["fastapi>=0.51.0"]
 
-dev = ["plugbear[test]", "plugbear[lint]"]
+dev = ["plugbear[test]", "plugbear[lint]", "plugbear[fastapi]"]
 test = [
     "pytest~=7.4",
     "pytest-asyncio~=0.23",
@@ -41,6 +40,7 @@ test = [
 ]
 lint = [
     "ruff~=0.1",
+    "mypy~=1.7",
 ]
 
 
@@ -50,7 +50,7 @@ asyncio_mode = "auto"
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
@@ -61,3 +61,30 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 # Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
+
+
+[tool.mypy]
+python_version = "3.9"
+allow_redefinition = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+no_implicit_reexport = true
+no_warn_no_return = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
+
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+
+# Plugins
+plugins = [
+    "pydantic.mypy",
+]
