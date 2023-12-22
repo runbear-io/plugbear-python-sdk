@@ -13,70 +13,71 @@ from openai.types.beta.threads import MessageContentText, ThreadMessage
 import plugbear.fastapi
 
 
-# create a OpenAI Assistant if the user does not enter an OpenAi Assistant ID.
-async def _get_openai_assistant_id(client: AsyncOpenAI) -> str:
-    try:
-        return os.environ["OPENAI_ASSISTANT_ID"]
-    except KeyError:
-        assistant = await client.beta.assistants.create(
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+PLUGBEAR_API_KEY = os.environ["PLUGBEAR_API_KEY"]
+openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+
+
+async def handle_request(request: plugbear.fastapi.Request) -> str:
+    """ Handle the request received from PlugBear.
+    """
+    # Finding or creating an example OpenAI Assistant.
+    assistant_id = await find_or_create_example_assistant()
+
+    # Creating a new OpenAI thread for the request.
+    thread = await openai_client.beta.threads.create()
+
+    # Adding messages to the thread. Adjust the message for your use case.
+    for message in request.messages:
+        await openai_client.beta.threads.messages.create(
+            thread_id=thread.id,
+            role="user",
+            content=message.content,
+        )
+
+    # Generating a response from the OpenAI Assistant.
+    run = await openai_client.beta.threads.runs.create(
+        thread_id=thread.id,
+        assistant_id=assistant_id
+    )
+
+    # Polling until the response is ready.
+    while run.status != "completed":
+        await asyncio.sleep(1)
+        run = await openai_client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+
+    # Returning the generated message.
+    resp = await openai_client.beta.threads.messages.list(thread_id=thread.id, order="desc")
+    generated_messages = [
+        content.text.value for content in resp.data[0].content]
+    return "\n".join(generated_messages)
+
+
+async def find_or_create_example_assistant() -> str:
+    """ Find or create an example of an OpenAI Assistant named 'Math Tutor'.
+    """
+    assistants = await openai_client.beta.assistants.list()
+    tutors = [a for a in assistants.data if a.name == "Math Tutor"]
+    if len(tutors) > 0:
+        assistant = tutors[0]
+    else:
+        assistant = await openai_client.beta.assistants.create(
             name="Math Tutor",
             instructions="You are a personal math tutor. Write and run code to answer math questions.",
             tools=[{"type": "code_interpreter"}],
             model="gpt-4-1106-preview",
         )
-        return assistant.id
 
-
-openai_client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
-openai_assistant_id = asyncio.get_event_loop().run_until_complete(_get_openai_assistant_id(openai_client))
-
-
-async def openai_assistant(request: plugbear.fastapi.Request) -> str:
-    thread = await openai_client.beta.threads.create()
-
-    joined_msg = "\n".join(m.content for m in request.messages)
-    await openai_client.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content=joined_msg,
-    )
-
-    run = await openai_client.beta.threads.runs.create(
-        thread_id=thread.id,
-        assistant_id=openai_assistant_id,
-        instructions="Please address the user as Jane Doe. The user has a premium account.",
-    )
-
-    while run.status != "completed":
-        await asyncio.sleep(1)
-        run = await openai_client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
-
-    messages = await openai_client.beta.threads.messages.list(thread_id=thread.id)
-    print(messages)
-    return _join_assistant_messages(messages)
-
-
-def _join_assistant_messages(m: AsyncCursorPage[ThreadMessage]) -> str:
-    messages: list[str] = []
-    for data in m.data:
-        if data.role != "assistant":
-            continue
-
-        for content in data.content:
-            if not isinstance(content, MessageContentText):
-                continue
-            messages.append(content.text.value)
-
-    return "\n".join(messages)
+    return assistant.id
 
 
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await plugbear.fastapi.register(
         app,
-        llm_func=openai_assistant,
-        api_key=os.environ["PLUGBEAR_API_KEY"],
-        endpoint=os.getenv("PLUGBEAR_ENDPOINT", default="/plugbear"),
+        llm_func=handle_request,
+        api_key=PLUGBEAR_API_KEY,
+        endpoint="/plugbear",
     )
 
     yield
