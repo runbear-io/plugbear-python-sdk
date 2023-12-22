@@ -7,8 +7,6 @@ from collections.abc import AsyncGenerator
 
 from fastapi import FastAPI
 from openai import AsyncOpenAI
-from openai.pagination import AsyncCursorPage
-from openai.types.beta.threads import MessageContentText, ThreadMessage
 
 import plugbear.fastapi
 
