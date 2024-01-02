@@ -1,7 +1,7 @@
 # PlugBear Python SDK Example (LangChain)
 
 This project introduces an example of integrating a LangChain application with
-communication channels, such as Slack, using PlugBear.
+communication channels, such as Slack, using PlugBear. Check [Building a Proofreading Bot Using LangChain](http://localhost:3001/use-cases/proofreading-bot/langchain) for detailed guide.
 
 ## Prerequisites
 
@@ -38,4 +38,4 @@ Follow [PlugBear Documentation](https://docs.plugbear.io) to connect your app
 into communication channels and test it.
 
 Ask any math question to `@PlugBear` after connecting it. e.g.,
-`` @PlugBear I need to solve the equation `3x + 11 = 14`. Can you help me?  ``.
+``@PlugBear This is an example sentence.``.
