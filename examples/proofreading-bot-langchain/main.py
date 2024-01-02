@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-import asyncio
 import contextlib
 import os
 from collections.abc import AsyncGenerator
 
-import plugbear.fastapi
 from fastapi import FastAPI
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from openai import AsyncOpenAI
+
+import plugbear.fastapi
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 PLUGBEAR_API_KEY = os.environ["PLUGBEAR_API_KEY"]
