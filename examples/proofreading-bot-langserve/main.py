@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-from operator import itemgetter
 
 from fastapi import FastAPI
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -9,8 +8,6 @@ from langchain_core.messages import convert_to_messages
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 from langserve import add_routes
-
-import plugbear.fastapi
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 PLUGBEAR_API_KEY = os.environ["PLUGBEAR_API_KEY"]
