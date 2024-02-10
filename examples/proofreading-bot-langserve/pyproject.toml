@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "plugbear-fastapi-example"
+version = "0.1.0"
+description = ""
+authors = ["Runbear <dev@runbear.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.105.0"
+plugbear = {version = "^0.1.0", extras = ["fastapi"]}
+uvicorn = "^0.24.0.post1"
+langchain = "0.1.6"
+openai = "^1.6.1"
+langserve = "^0.0.41"
+langchain-openai = "^0.0.5"
+sse-starlette = "^2.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
