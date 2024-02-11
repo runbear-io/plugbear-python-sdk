@@ -5,9 +5,9 @@ import os
 from collections.abc import AsyncGenerator
 
 from fastapi import FastAPI
-from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
 
 import plugbear.fastapi
 
